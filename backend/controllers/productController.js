@@ -30,10 +30,10 @@ const getItem = async (req, res) => {
 
 //create a new item
 const createItem = async (req, res) => {
-    const { pTitle, pDescription, pPrice, pCondition, pCategory, pImage, userID, pType } = req.body
+    const { pTitle, pDescription, pPrice, pCondition, pCategory, pImage, userID, pType, pStatus } = req.body
 
     try {
-        const item = await Product.create({ pTitle, pDescription, pPrice, pCondition, pCategory, pImage, userID, pType })
+        const item = await Product.create({ pTitle, pDescription, pPrice, pCondition, pCategory, pImage, userID, pType, pStatus })
         res.status(200).json(item)
     } catch (error) {
         res.status(400).json({ error: error.message })
