@@ -121,4 +121,42 @@ userSchema.statics.login = async function (userEmail, userPassword) {
     return user
 }
 
+
+userSchema.statics.resetPassword = async function (id, userPassword) {
+    if (!userPassword) {
+        throw Error("Please Enter The New Password")
+    }
+
+    if (!validator.isStrongPassword(userPassword)) {
+        throw Error("Password is not strong enough")
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(userPassword, salt)
+    const item = await this.findOneAndUpdate({ _id: id }, { userPassword: hash })
+
+    return item
+}
+
+
+
+
+
+
+
+userSchema.statics.forgotPassword = async function (userEmail) {
+    if (!userEmail) {
+        throw Error("Please Enter An Email")
+    }
+
+    const user = await this.findOne({ userEmail })
+
+    if (!user) {
+        throw Error("User Don't Exist")
+    }
+
+    return user
+
+}
+
 module.exports = mongoose.model('User', userSchema)

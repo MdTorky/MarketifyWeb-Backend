@@ -7,8 +7,12 @@ const {
     updateItem
 } = require("../controllers/productController")
 
+const requireAuth = require('../middleware/requireAuth')
 const router = express.Router()
 
+
+// require auth for all routes
+router.use(requireAuth)
 
 
 // Get All
