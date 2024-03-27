@@ -8,10 +8,12 @@ const router = express.Router()
 
 router.get('/', getAll)
 
+router.patch('/:id', updateItem)
+
+
 
 //Login Route
 router.post('/login', loginUser)
-
 
 //Register Route
 router.post('/register', RegisterUser)
