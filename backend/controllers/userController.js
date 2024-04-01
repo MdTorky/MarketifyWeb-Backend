@@ -10,6 +10,22 @@ const getAll = async (req, res) => {
     res.status(200).json(items)
 }
 
+const getItem = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: "No Such Item Found" })
+
+    }
+    const item = await User.findById(id)
+
+    if (!item) {
+        return res.status(404).json({ error: "No Such Item Found" })
+    }
+
+    res.status(200).json(item)
+}
+
 const updateItem = async (req, res) => {
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -446,6 +462,7 @@ const ResetPassword = async (req, res) => {
 
 module.exports = {
     getAll,
+    getItem,
     updateItem,
     loginUser,
     RegisterUser,
