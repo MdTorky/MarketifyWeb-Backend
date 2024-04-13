@@ -4,7 +4,8 @@ const {
     getItem,
     createItem,
     deleteItem,
-    updateItem
+    updateItem,
+    getFirstProductByUserId
 } = require("../controllers/productController")
 
 const requireAuth = require('../middleware/requireAuth')
@@ -21,6 +22,9 @@ router.get('/', getAll)
 
 // Get Single
 router.get('/:id', getItem)
+
+
+router.get('user/:userID', getFirstProductByUserId)
 
 //Insert Product
 router.post('/', createItem)

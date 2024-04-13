@@ -5,6 +5,7 @@ const productRoutes = require('./routes/products')
 const userRoutes = require('./routes/user')
 const chatRoutes = require('./routes/chat')
 const messageRoutes = require('./routes/message')
+const notificationRoutes = require('./routes/notification')
 const cors = require('cors');
 
 //express app
@@ -26,6 +27,7 @@ app.use('/api/products', productRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
+app.use('/api/notification', notificationRoutes)
 
 
 //Connect to DB
@@ -75,7 +77,14 @@ mongoose.connect(process.env.MONGO_URI)
                     console.log("USER DISCONNECTED");
                     socket.leave(userData.userId)
                 })
+
+
+                socket.on('leave chat', (room) => {
+                    socket.leave(room);
+                    console.log("User Leave Room: " + room);
+                });
             })
+
 
 
             console.log('Connected to DB and Listening to Port 4000')

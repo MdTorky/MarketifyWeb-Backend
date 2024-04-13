@@ -28,6 +28,24 @@ const getItem = async (req, res) => {
 
 
 
+const getFirstProductByUserId = async (req, res) => {
+    const { userID } = req.params;
+
+    try {
+        const product = await Product.findOne({ userID }).sort({ createdAt: 1 });
+
+        if (!product) {
+            return res.status(404).json({ error: "No product found with the specified userID" });
+        }
+
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+
 //create a new item
 const createItem = async (req, res) => {
     const { pTitle, pDescription, pPrice, pCondition, pCategory, pImage, userID, pType, pStatus } = req.body
@@ -84,7 +102,8 @@ module.exports = {
     getItem,
     createItem,
     deleteItem,
-    updateItem
+    updateItem,
+    getFirstProductByUserId
 }
 
 

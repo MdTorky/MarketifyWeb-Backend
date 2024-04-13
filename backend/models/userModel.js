@@ -53,7 +53,7 @@ const userSchema = new Schema({
     userError: {
         type: String,
     },
-})
+}, { timestamps: true })
 
 
 
