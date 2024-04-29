@@ -20,6 +20,10 @@ const notificationSchema = new Schema({
     },
     status: {
         type: String
+    },
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
     }
 }, { timestamps: true })
 

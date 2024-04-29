@@ -63,7 +63,7 @@ const getBySenderId = async (req, res) => {
 
 
 const createItem = async (req, res) => {
-    const { type, sender, receiver, content, status } = req.body
+    const { type, sender, receiver, content, product, status } = req.body
 
     try {
         // Check if sender and receiver are valid ObjectId values
@@ -72,7 +72,7 @@ const createItem = async (req, res) => {
         }
 
         // Create the notification with references to sender and receiver
-        const item = await Notification.create({ type, sender, receiver, content, status });
+        const item = await Notification.create({ type, sender, receiver, content, product, status });
 
         // Populate sender and receiver fields with actual user objects
         const populatedItem = await item.populate('sender receiver');
