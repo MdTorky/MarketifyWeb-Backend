@@ -8,7 +8,8 @@ const chatRoutes = require('./routes/chat')
 const messageRoutes = require('./routes/message')
 const notificationRoutes = require('./routes/notification')
 const cors = require('cors');
-
+const stripe = require('./routes/stripe')
+const webhookRoutes = require('./routes/webhook');
 //express app
 const app = express();
 app.use(cors());
@@ -30,7 +31,8 @@ app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/notification', notificationRoutes)
-
+app.use('/api/stripe', stripe)
+app.use('/api/webhook', webhookRoutes);
 
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)
