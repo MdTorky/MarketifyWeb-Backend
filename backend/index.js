@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const productRoutes = require('./routes/products')
 const transactionRoutes = require('./routes/transactions')
+const reviewRoutes = require('./routes/review')
 const userRoutes = require('./routes/user')
 const chatRoutes = require('./routes/chat')
 const messageRoutes = require('./routes/message')
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/products', productRoutes)
 app.use('/api/transactions', transactionRoutes)
+app.use('/api/reviews', reviewRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
