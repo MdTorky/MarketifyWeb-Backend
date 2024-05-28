@@ -53,6 +53,16 @@ const userSchema = new Schema({
     userError: {
         type: String,
     },
+    userQrImage: {
+        type: String,
+    },
+    userBankAccount: {
+        type: String,
+    },
+    userBankType: {
+        type: String,
+    },
+    lastDonation: { type: Date },
 }, { timestamps: true })
 
 

@@ -33,10 +33,10 @@ const getItem = async (req, res) => {
 
 //create a new item
 const createItem = async (req, res) => {
-    const { reviewerID, sellerID, reviewComment, reviewRating } = req.body
+    const { reviewerID, sellerID, reviewComment, reviewRating, proof } = req.body
 
     try {
-        const item = await Review.create({ reviewerID, sellerID, reviewComment, reviewRating })
+        const item = await Review.create({ reviewerID, sellerID, reviewComment, reviewRating, poof: null })
         res.status(200).json(item)
     } catch (error) {
         res.status(400).json({ error: error.message })

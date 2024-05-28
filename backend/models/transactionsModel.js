@@ -22,7 +22,10 @@ const transactionsSchema = new Schema({
     transactionStatus: {
         type: String,
         required: true
-    }
+    },
+    proof: {
+        type: String,
+    },
 }, { timestamps: true })
 
 

@@ -6,72 +6,76 @@ const mongoose = require('mongoose')
 
 
 const getAll = async (req, res) => {
-    const items = await User.find({}).sort({ createdAt: -1 })
-    res.status(200).json(items)
+  const items = await User.find({}).sort({ createdAt: -1 })
+  res.status(200).json(items)
 }
 
 const getItem = async (req, res) => {
-    const { id } = req.params
+  const { id } = req.params
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: "No Such Item Found" })
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No Such Item Found" })
 
-    }
-    const item = await User.findById(id)
+  }
+  const item = await User.findById(id)
 
-    if (!item) {
-        return res.status(404).json({ error: "No Such Item Found" })
-    }
+  if (!item) {
+    return res.status(404).json({ error: "No Such Item Found" })
+  }
 
-    res.status(200).json(item)
+  res.status(200).json(item)
 }
 
 const updateItem = async (req, res) => {
-    const { id } = req.params
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No Such Item Found' })
-    }
-    const item = await User.findOneAndUpdate({ _id: id }, {
-        ...req.body
-    })
+  const { id } = req.params
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'No Such Item Found' })
+  }
+  const item = await User.findOneAndUpdate({ _id: id }, {
+    ...req.body
+  })
 
-    if (!item) {
-        return res.status(404).json({ error: "No Such Item Found" })
-    }
+  if (!item) {
+    return res.status(404).json({ error: "No Such Item Found" })
+  }
 
-    res.status(200).json(item)
+  res.status(200).json(item)
 
 }
 
 
 const createToken = (_id) => {
-    return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' })
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' })
 
 }
 // Login User
 const loginUser = async (req, res) => {
-    const { userEmail, userPassword } = req.body
-    try {
-        const user = await User.login(userEmail, userPassword)
+  const { userEmail, userPassword } = req.body
+  try {
+    const user = await User.login(userEmail, userPassword)
 
-        //Create Token
-        const token = createToken(user._id)
-        const userFname = user.userFname
-        const userPhoneNo = user.userPhoneNo
-        const userAddress = user.userAddress
-        const userImage = user.userImage
-        const userPassport = user.userPassport
-        const userPassportImage = user.userPassportImage
-        const userStatus = user.userStatus
-        const userType = user.userType
-        const userFine = user.userFine
-        const userError = user.userError
-        const userId = user._id
+    //Create Token
+    const token = createToken(user._id)
+    const userFname = user.userFname
+    const userPhoneNo = user.userPhoneNo
+    const userAddress = user.userAddress
+    const userImage = user.userImage
+    const userPassport = user.userPassport
+    const userPassportImage = user.userPassportImage
+    const userStatus = user.userStatus
+    const userType = user.userType
+    const userFine = user.userFine
+    const userError = user.userError
+    const userId = user._id
+    const userQrImage = user.userQrImage
+    const userBankType = user.userBankType
+    const userBankAccount = user.userBankAccount
+    const lastDonation = user.lastDonation
 
-        res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userId })
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
+    res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userId, userQrImage, userBankAccount, userBankType, lastDonation })
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
 
 }
 
@@ -85,24 +89,24 @@ const loginUser = async (req, res) => {
 // Register User
 
 const RegisterUser = async (req, res) => {
-    const { userEmail, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError } = req.body
+  const { userEmail, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType, lastDonation } = req.body
 
-    try {
-        const user = await User.register(userEmail, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError)
+  try {
+    const user = await User.register(userEmail, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType, lastDonation)
 
-        //Create Token
-        const token = createToken(user._id)
+    //Create Token
+    const token = createToken(user._id)
 
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'Marketify.utm@gmail.com',
-                pass: 'xmlk mtyn kxup ooev'
-            }
-        });
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'Marketify.utm@gmail.com',
+        pass: 'xmlk mtyn kxup ooev'
+      }
+    });
 
 
-        var html = `
+    var html = `
        
         <!DOCTYPE HTML
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -508,48 +512,48 @@ const RegisterUser = async (req, res) => {
         `;
 
 
-        var mailOptions = {
-            from: {
-                name: 'Marketify',
-                address: 'Marketify.utm@gmail.com'
-            },
-            to: userEmail,
-            subject: 'Marketify - Welcome To Marketify',
-            html: html
+    var mailOptions = {
+      from: {
+        name: 'Marketify',
+        address: 'Marketify.utm@gmail.com'
+      },
+      to: userEmail,
+      subject: 'Marketify - Welcome To Marketify',
+      html: html
 
-        };
+    };
 
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                return res.send({ Status: 'Success' })
-            }
-        });
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        return res.send({ Status: 'Success' })
+      }
+    });
 
-        res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError })
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
+    res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType })
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
 }
 
 
 const ForgotPassword = async (req, res) => {
-    const { userEmail } = req.body;
+  const { userEmail } = req.body;
 
-    try {
-        const user = await User.forgotPassword(userEmail)
-        const token = createToken(user._id)
+  try {
+    const user = await User.forgotPassword(userEmail)
+    const token = createToken(user._id)
 
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'Marketify.utm@gmail.com',
-                pass: 'xmlk mtyn kxup ooev'
-            }
-        });
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'Marketify.utm@gmail.com',
+        pass: 'xmlk mtyn kxup ooev'
+      }
+    });
 
-        var html = `
+    var html = `
         <!DOCTYPE HTML
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
@@ -913,42 +917,42 @@ style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear
         `;
 
 
-        var mailOptions = {
-            from: {
-                name: 'Marketify',
-                address: 'Marketify.utm@gmail.com'
-            },
-            to: userEmail,
-            subject: 'Marketify - Reset Your Password!',
-            // text: `http://localhost:3000/resetPassword/${user._id}`
-            html: html
+    var mailOptions = {
+      from: {
+        name: 'Marketify',
+        address: 'Marketify.utm@gmail.com'
+      },
+      to: userEmail,
+      subject: 'Marketify - Reset Your Password!',
+      // text: `http://localhost:3000/resetPassword/${user._id}`
+      html: html
 
-        };
+    };
 
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                return res.send({ Status: 'Success' })
-            }
-        });
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        return res.send({ Status: 'Success' })
+      }
+    });
 
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
 }
 
 
 const ResetPassword = async (req, res) => {
-    const { id, userPassword } = req.body
+  const { id, userPassword } = req.body
 
-    try {
+  try {
 
-        const user = await User.resetPassword(id, userPassword)
-        res.status(200).json({ userPassword, user })
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
+    const user = await User.resetPassword(id, userPassword)
+    res.status(200).json({ userPassword, user })
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
 }
 
 
@@ -956,11 +960,11 @@ const ResetPassword = async (req, res) => {
 
 
 module.exports = {
-    getAll,
-    getItem,
-    updateItem,
-    loginUser,
-    RegisterUser,
-    ForgotPassword,
-    ResetPassword
+  getAll,
+  getItem,
+  updateItem,
+  loginUser,
+  RegisterUser,
+  ForgotPassword,
+  ResetPassword
 }
