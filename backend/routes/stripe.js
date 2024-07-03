@@ -48,8 +48,6 @@ router.post('/create-checkout-session', async (req, res) => {
                 currency: 'myr',
                 product_data: {
                     name: item.userFname,
-                    // images: [item.pImage],
-                    // description: item.pDescription,
                     metadata: {
                         id: item._id,
                         // seller: item.userID
