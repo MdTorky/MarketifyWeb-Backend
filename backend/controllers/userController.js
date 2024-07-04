@@ -313,7 +313,7 @@ const RegisterUser = async (req, res) => {
       
                                     <div
                                       style="font-size: 16px; font-weight: 700; color: #b41d1d; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                      <p style="line-height: 140%;">Welcome ${userFname} to Marketify</p>
+                                      <p style="line-height: 140%;">Welcome to Marketify</p>
                                     </div>
       
                                   </td>
