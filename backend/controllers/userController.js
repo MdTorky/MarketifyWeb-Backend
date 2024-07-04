@@ -313,7 +313,7 @@ const RegisterUser = async (req, res) => {
       
                                     <div
                                       style="font-size: 16px; font-weight: 700; color: #b41d1d; line-height: 140%; text-align: left; word-wrap: break-word;">
-                                      <p style="line-height: 140%;">Welcome to Marketify</p>
+                                      <p style="line-height: 140%;">Welcome ${userFname} to Marketify</p>
                                     </div>
       
                                   </td>
@@ -530,7 +530,7 @@ const RegisterUser = async (req, res) => {
       }
     });
 
-    res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType })
+    await res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType })
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
