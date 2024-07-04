@@ -97,7 +97,10 @@ const RegisterUser = async (req, res) => {
     const token = createToken(user._id)
 
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      // service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
         user: 'Marketify.utm@gmail.com',
         pass: 'xmlk mtyn kxup ooev'
@@ -522,15 +525,39 @@ const RegisterUser = async (req, res) => {
 
     };
 
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     return res.send({ Status: 'Success' })
+    //   }
+    // });
+
+
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        return res.status(500).send({ message: error.toString() });
       } else {
-        return res.send({ Status: 'Success' })
+        return res.status(200).json({
+          message: 'Email sent: ' + info.response,
+          userEmail,
+          token,
+          userFname,
+          userPhoneNo,
+          userAddress,
+          userImage,
+          userPassport,
+          userPassportImage,
+          userStatus,
+          userType,
+          userFine,
+          userError,
+          userQrImage,
+          userBankType
+        });
       }
     });
-
-    await res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType })
+    // res.status(200).json({ userEmail, token, userFname, userPassword, userPhoneNo, userAddress, userImage, userPassport, userPassportImage, userStatus, userType, userFine, userError, userQrImage, userBankAccount, userBankType })
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
