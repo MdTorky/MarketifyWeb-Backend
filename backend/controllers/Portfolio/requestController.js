@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 //get all items
 
 const getAll = async (req, res) => {
-    const items = await Transaction.find({}).sort({ createdAt: -1 })
+    const items = await Reques.find({}).sort({ createdAt: -1 })
     res.status(200).json(items)
 }
 
@@ -17,7 +17,7 @@ const getItem = async (req, res) => {
         return res.status(404).json({ error: "No Such Item Found" })
 
     }
-    const item = await Transaction.findById(id)
+    const item = await Reques.findById(id)
 
     if (!item) {
         return res.status(404).json({ error: "No Such Item Found" })
@@ -48,7 +48,7 @@ const createItem = async (req, res) => {
 
         const reference = `${nameInitials}${randomPart}${serviceId}${datePart}`;
 
-        const item = await Transaction.create({ name, email, phone, quantity, notes, service, serviceId, price, reference })
+        const item = await Reques.create({ name, email, phone, quantity, notes, service, serviceId, price, reference })
         res.status(200).json(item)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -63,7 +63,7 @@ const deleteItem = async (req, res) => {
         return res.status(404).json({ error: "No Such Item Found" })
     }
 
-    const item = await Transaction.findOneAndDelete({ _id: id })
+    const item = await Reques.findOneAndDelete({ _id: id })
 
     if (!item) {
         return res.status(404).json({ error: "No Such Item Found" })
@@ -80,7 +80,7 @@ const updateItem = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).json({ error: "No Such Item Found" })
     }
-    const item = await Transaction.findOneAndUpdate({ _id: id }, {
+    const item = await Reques.findOneAndUpdate({ _id: id }, {
         ...req.body
     })
 
