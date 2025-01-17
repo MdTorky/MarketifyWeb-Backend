@@ -45,23 +45,6 @@ const getBySenderId = async (req, res) => {
 }
 
 
-
-
-
-
-//create a new item
-// const createItem = async (req, res) => {
-//     const { type, sender, receiver, content } = req.body
-
-//     try {
-//         const item = await Notification.create({ type, sender, receiver, content })
-//         res.status(200).json(item)
-//     } catch (error) {
-//         res.status(400).json({ error: error.message })
-//     }
-// }
-
-
 const createItem = async (req, res) => {
     const { type, sender, receiver, content, product, status } = req.body
 

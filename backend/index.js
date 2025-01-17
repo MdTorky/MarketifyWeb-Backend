@@ -12,6 +12,7 @@ const notificationRoutes = require('./routes/notification')
 const cors = require('cors');
 const stripe = require('./routes/stripe')
 const webhookRoutes = require('./routes/webhook');
+const requestRoutes = require('./routes/Portfolio/request');
 //express app
 const app = express();
 app.use(cors());
@@ -37,6 +38,7 @@ app.use('/api/message', messageRoutes)
 app.use('/api/notification', notificationRoutes)
 app.use('/api/stripe', stripe)
 app.use('/api/webhook', webhookRoutes);
+app.use('/api/request', requestRoutes);
 
 //Connect to DB
 mongoose.connect(process.env.MONGO_URI)

@@ -525,13 +525,6 @@ const RegisterUser = async (req, res) => {
 
     };
 
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     return res.send({ Status: 'Success' })
-    //   }
-    // });
 
 
     transporter.sendMail(mailOptions, function (error, info) {
